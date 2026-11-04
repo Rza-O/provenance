@@ -1,0 +1,55 @@
+# Dependencies
+node_modules/
+
+# Build output
+dist/
+build/
+out/
+.next/
+*.tsbuildinfo
+next-env.d.ts
+*.tgz
+
+# Caches
+.cache/
+.eslintcache
+
+# Env and secrets
+.env
+.env.*
+!.env.example
+
+# Logs
+*.log
+logs/
+
+# OS / editor
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
+
+# Coverage and test output
+coverage/
+*.lcov
+
+# Terraform
+.terraform/
+*.tfstate
+*.tfstate.*
+*.tfvars
+!*.tfvars.example
+
+# Local data (crawled pages, index segments)
+data/
+
+# AI assistant files
+CLAUDE.md
+.claude/
+
+# Internal planning
+DEVLOG.md
+docs/IDEA.md
+docs/ROADMAP.md
+docs/decisions.md
+docs/Provenance_SRS.md
