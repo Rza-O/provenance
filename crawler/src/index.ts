@@ -1,3 +1,4 @@
+import { fetchPage } from "./fetch";
 import { canFetch, fetchRobots, parseRobots } from "./robots";
 import { loadSeeds, makeAllowList } from "./seed";
 
@@ -10,5 +11,13 @@ for (const url of seeds) {
 	if (!isAllowed(url)) continue;
 
 	const ok = await canFetch(url);
-	console.log(`${ok ? "OK    " : "BLOCKED"}${url}`);
+	// console.log(`${ok ? "OK    " : "BLOCKED"}${url}`);
+	if (!ok) {
+		console.log(`BLOCKED    ${url}`);
+		continue;
+	}
+	const page = await fetchPage(url);
+	if (page) {
+		console.log(`${page.status} ${page.html.length} bytes  ${page.url}`);
+	}
 }

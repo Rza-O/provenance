@@ -1,8 +1,9 @@
-const USER_AGENT = "ProvenanceBot/0.1 (+https://github.com/Rza-O/provenance)";
+import { FETCH_TIMEOUT_MS, USER_AGENT } from "./config";
+
 export async function fetchRobots(host: string): Promise<string> {
 	const res = await fetch(`https://${host}/robots.txt`, {
 		headers: { "User-Agent": USER_AGENT },
-		signal: AbortSignal.timeout(10000),
+		signal: AbortSignal.timeout(FETCH_TIMEOUT_MS),
 	});
 
 	if (!res.ok) return "";

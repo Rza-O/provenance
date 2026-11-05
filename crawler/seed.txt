@@ -1,7 +1,7 @@
 https://react.dev/learn
 https://nextjs.org/docs
 https://www.typescriptlang.org/docs/
-https://nodejs.org/docs/latest/api/
+https://nodejs.org/api/
 https://bun.sh/docs
 https://developer.mozilla.org/en-US/docs/Web
 https://www.postgresql.org/docs/current/
@@ -15,6 +15,6 @@ https://engineering.fb.com/
 https://fly.io/blog/
 https://brooker.co.za/blog/
 https://martinfowler.com/
-https://softwaredoug.com/blog/
+https://softwaredoug.com/
 https://jvns.ca/
 https://danluu.com/
