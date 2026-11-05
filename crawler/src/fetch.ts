@@ -1,4 +1,5 @@
 import { FETCH_TIMEOUT_MS, USER_AGENT } from "./config";
+import { waitTurn } from "./limiter";
 
 export type FetchResult = {
 	url: string;
@@ -9,6 +10,7 @@ export type FetchResult = {
 
 export async function fetchPage(url: string): Promise<FetchResult | null> {
 	try {
+		await waitTurn(new URL(url).hostname);
 		const res = await fetch(url, {
 			headers: { "User-Agent": USER_AGENT },
 			signal: AbortSignal.timeout(FETCH_TIMEOUT_MS),

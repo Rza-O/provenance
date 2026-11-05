@@ -1,6 +1,8 @@
 import { FETCH_TIMEOUT_MS, USER_AGENT } from "./config";
+import { waitTurn } from "./limiter";
 
 export async function fetchRobots(host: string): Promise<string> {
+	await waitTurn(host);
 	const res = await fetch(`https://${host}/robots.txt`, {
 		headers: { "User-Agent": USER_AGENT },
 		signal: AbortSignal.timeout(FETCH_TIMEOUT_MS),

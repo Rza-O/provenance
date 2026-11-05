@@ -18,6 +18,6 @@ for (const url of seeds) {
 	}
 	const page = await fetchPage(url);
 	if (page) {
-		console.log(`${page.status} ${page.html.length} bytes  ${page.url}`);
+		console.log(`${new Date().toISOString().slice(11, 23)}  ${page.status} ${page.html.length} bytes  ${page.url}`);
 	}
 }
