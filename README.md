@@ -2,7 +2,7 @@
 
 > A research search engine for engineering knowledge, built from scratch. It shows where every answer comes from.
 
-**Status:** Week 1 of 12, building the first crawler. 🚧
+**Status:** Week 1 of 12. The crawler fetches the seed sites politely (robots.txt, 1 req/s per site); link following comes next. 🚧
 
 ## What it does
 - **Search mode:** type a query, get ranked pages from Provenance's own index.

@@ -1,15 +1,21 @@
-import { FETCH_TIMEOUT_MS, USER_AGENT } from "./config";
+import { DISALLOW_ALL, FETCH_TIMEOUT_MS, USER_AGENT } from "./config";
 import { waitTurn } from "./limiter";
 
 export async function fetchRobots(host: string): Promise<string> {
 	await waitTurn(host);
-	const res = await fetch(`https://${host}/robots.txt`, {
-		headers: { "User-Agent": USER_AGENT },
-		signal: AbortSignal.timeout(FETCH_TIMEOUT_MS),
-	});
 
-	if (!res.ok) return "";
-	return await res.text();
+	try {
+		const res = await fetch(`https://${host}/robots.txt`, {
+			headers: { "User-Agent": USER_AGENT },
+			signal: AbortSignal.timeout(FETCH_TIMEOUT_MS),
+		});
+		if (res.status >= 400 && res.status < 500) return "";
+		if (!res.ok) return DISALLOW_ALL;
+		return await res.text();
+	} catch (err) {
+		console.error(`robots.txt failed ${host}`, (err as Error).message);
+		return DISALLOW_ALL;
+	}
 }
 
 export function parseRobots(text: string): string[] {
