@@ -13,3 +13,8 @@ pre-commit:
       root: "crawler/"
       glob: "*.ts"
       run: bun test
+
+commit-msg:
+  commands:
+    commitlint:
+      run: bunx commitlint --edit {1}
