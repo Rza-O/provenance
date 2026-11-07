@@ -1,0 +1,4 @@
+notes/
+books/
+*.md
+bun.lock
