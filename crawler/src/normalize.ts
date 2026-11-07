@@ -1,6 +1,5 @@
 import { TRACKING_PARAMS } from "./config";
 
-
 export function normalize(raw: string, base?: string): string | null {
 	try {
 		const url = new URL(raw, base);

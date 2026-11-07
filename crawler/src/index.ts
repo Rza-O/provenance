@@ -2,7 +2,7 @@ import { extract } from "./extract";
 import { fetchPage } from "./fetch";
 import { makeFrontier } from "./frontier";
 import { normalize } from "./normalize";
-import { canFetch, fetchRobots, parseRobots } from "./robots";
+import { canFetch } from "./robots";
 import { loadSeeds, makeAllowList } from "./seed";
 
 const seeds = await loadSeeds();
