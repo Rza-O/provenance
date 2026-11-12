@@ -1,4 +1,5 @@
 import type { SearchResult } from "@/lib/search";
+import { Snippet } from "./snippet";
 
 // Pure markup: renders whatever search() returned, best match first.
 export function ResultList({ results }: { results: SearchResult[] }) {
@@ -10,7 +11,11 @@ export function ResultList({ results }: { results: SearchResult[] }) {
 						{r.title || r.url}
 					</a>
 					<div className="truncate text-sm text-green-700">{r.url}</div>
-					<p className="mt-1 text-sm text-gray-700">{r.snippet}</p>
+					{/* Debug line: shows why a result ranks where it does. */}
+					<div className="text-xs text-gray-400">
+						{new URL(r.url).hostname} · rank {r.rank.toFixed(3)}
+					</div>
+					<Snippet text={r.snippet} />
 				</li>
 			))}
 		</ol>
