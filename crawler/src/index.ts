@@ -1,9 +1,11 @@
+import { sql } from "./db";
 import { extract } from "./extract";
 import { fetchPage } from "./fetch";
 import { makeFrontier } from "./frontier";
 import { normalize } from "./normalize";
 import { canFetch } from "./robots";
 import { loadSeeds, makeAllowList } from "./seed";
+import { savePage } from "./store";
 
 const seeds = await loadSeeds();
 const isAllowed = makeAllowList(seeds);
@@ -29,9 +31,19 @@ while ((url = frontier.next())) {
 	crawled++;
 	console.log(`${crawled}  ${page.status}  ${text.length} chars  ${title}  ${page.url}`);
 
+	const absLinks: string[] = [];
 	for (const link of links) {
 		const abs = normalize(link, page.url);
-		if (abs && isAllowed(abs)) frontier.add(abs);
+		if (!abs) continue;
+		absLinks.push(abs);
+		if (isAllowed(abs)) frontier.add(abs);
+	}
+
+	try {
+		await savePage({ url: page.url, status: page.status, title, body: text, links: absLinks });
+	} catch (err) {
+		console.error(`save failed: ${page.url}`, (err as Error).message);
 	}
 }
 console.log(`done: ${crawled} pages`);
+await sql.close();
