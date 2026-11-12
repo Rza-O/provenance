@@ -2,7 +2,8 @@
 	"name": "provenance",
 	"private": true,
 	"workspaces": [
-		"crawler"
+		"crawler",
+		"web"
 	],
 	"scripts": {
 		"lint": "eslint .",
