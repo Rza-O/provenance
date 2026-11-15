@@ -53,3 +53,11 @@ export async function mergeSegments(
 	await rm(olderPath);
 	await rm(newerPath);
 }
+
+export async function loadIndex(dir: string): Promise<Index> {
+	let index: Index = { postings: new Map(), docLengths: new Map() };
+	for (const path of await listSegments(dir)) {
+		index = combine(index, await readSegment(path));
+	}
+	return index;
+}
