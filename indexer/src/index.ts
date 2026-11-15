@@ -1,7 +1,6 @@
-import { bm25 } from "./bm25";
 import { buildIndex } from "./build";
 import { sql } from "./db";
-import { intersect } from "./intersect";
+import { writeSegment } from "./segment";
 
 type Row = { id: string; title: string; body: string };
 
@@ -11,14 +10,7 @@ const rows: Row[] = await sql`SELECT id, title, body FROM pages ORDER BY id`;
 const docs = rows.map((r) => ({ id: Number(r.id), text: `${r.title} ${r.body}` }));
 
 const index = buildIndex(docs);
-// console.log("unique terms: ", index.postings.size);
 
-const hits = intersect(index.postings.get("docker") ?? [], index.postings.get("compose") ?? []);
-
-console.log("docker AND compose:", hits);
-
-const titles = new Map(rows.map((r) => [Number(r.id), r.title]));
-
-for (const { docId, score } of bm25(index, "Node.js").slice(0, 5)) {
-	console.log(score.toFixed(2), docId, titles.get(docId));
-}
+const path = "data/segments/seg-0001.json";
+await writeSegment(index, path);
+console.log(`wrote ${path}: ${docs.length} pages, ${index.postings.size} terms`);
