@@ -1,3 +1,4 @@
+import { bm25 } from "./bm25";
 import { buildIndex } from "./build";
 import { sql } from "./db";
 import { intersect } from "./intersect";
@@ -15,3 +16,9 @@ const index = buildIndex(docs);
 const hits = intersect(index.postings.get("docker") ?? [], index.postings.get("compose") ?? []);
 
 console.log("docker AND compose:", hits);
+
+const titles = new Map(rows.map((r) => [Number(r.id), r.title]));
+
+for (const { docId, score } of bm25(index, "Node.js").slice(0, 5)) {
+	console.log(score.toFixed(2), docId, titles.get(docId));
+}
