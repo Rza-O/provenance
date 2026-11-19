@@ -72,6 +72,9 @@ More detail: [Architecture](docs/ARCHITECTURE.md).
 - **Stop words cost something.** Long queries are among my slowest (~0.01 ms vs 0.002–0.005 for most short ones) because `how`, `to` and `is` sit on almost every page, so their postings get walked in full. BM25 gives them almost no weight, but walking those postings still costs time.
 - **Small print:** 53 pages, one laptop, and differences under ~0.2 ms are noise (one-word queries are identical in AND and OR mode, and still came out up to 0.1 ms apart). Overlap counts shared pages, not their order. Ranking quality gets a real evaluation (labeled queries, NDCG) later.
 
+## Known limitations
+- **Two tokenizers, one results page.** My BM25 index picks and orders the pages, but the snippet under each title still comes from Postgres `ts_headline`. The two read a query differently: BM25 matches *any* word and only strips plurals, while Postgres's query needs *every* word and uses its English stemmer. So the order is right, but some snippets have no highlighted words. The fix is a snippet generator built on my own tokenizer, planned alongside the evaluation work.
+
 ## Things that bit me (so far)
 
 - **Postgres `BIGINT` arrives as a string in JavaScript**, because JS numbers are exact only up to 2⁵³. String ids sort as `"10" < "9"`, which would have broken every sorted postings list. They're converted to numbers right at the database boundary.
