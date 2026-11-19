@@ -19,8 +19,7 @@
 			}
 		],
 		"paths": {
-			"@/*": ["./src/*"],
-			"@indexer/*": ["../indexer/src/*"]
+			"@/*": ["./src/*"]
 		}
 	},
 	"include": [
