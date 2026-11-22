@@ -26,4 +26,12 @@ describe("extract", () => {
 		const page = await extract(html);
 		expect(page.links).toEqual(["/docs/install"]);
 	});
+
+	test("ignores <title> inside SVG", async () => {
+		const page = await extract(
+			"<head><title>The Fly Blog</title></head><body><svg><title>Fly</title></svg><p>Hi</p></body>",
+		);
+		expect(page.title).toBe("The Fly Blog");
+		expect(page.text).toBe("Hi");
+	});
 });

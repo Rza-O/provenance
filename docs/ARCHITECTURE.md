@@ -81,7 +81,9 @@ Segment naming: `seg-0001.json`, zero-padded so name order = number order = page
 
 ## Environments
 - **Local (default):** Bun, Docker Compose (Postgres); a local AWS emulator once the cloud parts arrive.
-- **AWS (short demos only):** Terraform, free credits, budget alerts on, no NAT gateways, `terraform destroy` after.
+- **Dev on Windows:** WSL2 (Ubuntu), repo in the Linux filesystem (`~/code/provenance`), not `/mnt/...`.
+- **AWS v1 (Week 3):** one small EC2 instance on free credits, Docker Compose (`postgres`, `api`, `crawler`, `web`) behind Nginx, set up by hand; budget alerts on, no backups yet (rebuild by re-crawling).
+- **AWS later (Week 7+):** Terraform, CI/CD (GitHub Actions → GHCR → EC2), `pg_dump` backups to S3, no NAT gateways, `terraform destroy` after short demos.
 
 ## Open questions
 - Embedding model and vector store: decide with hybrid search.

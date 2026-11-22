@@ -4,12 +4,21 @@ export async function extract(html: string): Promise<Extracted> {
 	let title = "";
 	let text = "";
 	let skip = false;
+	let inSvgTitle = false;
 	const links: string[] = [];
 
 	const rewriter = new HTMLRewriter()
+		.on("svg title", {
+			element(el) {
+				inSvgTitle = true;
+				el.onEndTag(() => {
+					inSvgTitle = false;
+				});
+			},
+		})
 		.on("title", {
 			text(chunk) {
-				title += chunk.text;
+				if (!inSvgTitle) title += chunk.text;
 			},
 		})
 		.on("script, style, noscript", {
@@ -22,7 +31,7 @@ export async function extract(html: string): Promise<Extracted> {
 		})
 		.on("body", {
 			text(chunk) {
-				if (skip) return;
+				if (skip || inSvgTitle) return;
 				text += chunk.text;
 				if (chunk.lastInTextNode) text += " ";
 			},
