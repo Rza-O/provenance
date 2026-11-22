@@ -34,4 +34,14 @@ describe("extract", () => {
 		expect(page.title).toBe("The Fly Blog");
 		expect(page.text).toBe("Hi");
 	});
+
+	test("decodes entities, once", async () => {
+		const page = await extract("<body><p>doesn&#39;t use &amp;lt;&nbsp;here</p></body>");
+		expect(page.text).toBe("doesn't use &lt; here");
+	});
+
+	test("decodes hrefs", async () => {
+		const page = await extract('<body><a href="/s?a=1&amp;b=2&copy=3">x</a></body>');
+		expect(page.links).toEqual(["/s?a=1&b=2&copy=3"]);
+	});
 });
